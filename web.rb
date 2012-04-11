@@ -12,19 +12,20 @@ get '/' do
 end
 
 get '/twilio' do
-	if (params['Body'].include? "STOP") do
+	if params['Body'].include? "STOP"
 		REDIS.srem "sms_followers", params['From']
 		response = Twilio::TwiML::Response.new do |r|
   			r.Sms 'You have unsubscribed from the RailsConf 2012 BohConf feed. Powered by Twilio.'
 		end
 		response.text
-	end
+	else
 
-	REDIS.sadd "sms_followers", params['From']
-  	response = Twilio::TwiML::Response.new do |r|
-  	r.Sms 'You have subscribed to the RailsConf 2012 BohConf feed. Powered by Twilio. Text back STOP to leave'
+		REDIS.sadd "sms_followers", params['From']
+  		response = Twilio::TwiML::Response.new do |r|
+  			r.Sms 'You have subscribed to the RailsConf 2012 BohConf feed. Powered by Twilio. Text back STOP to leave'
+		end
+		response.text
 	end
-	response.text
 end
 
 get '/members' do
