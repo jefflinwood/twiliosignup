@@ -8,7 +8,7 @@ configure do
 end
 
 get '/' do
-  REDIS.get("rocky")
+  REDIS.get("dog")
 end
 
 get '/twilio' do
