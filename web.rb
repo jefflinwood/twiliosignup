@@ -31,7 +31,3 @@ end
 get '/members' do
 	REDIS.smembers "sms_followers"
 end
-
-get '/clear' do
-	REDIS.del "sms_followers"
-end
